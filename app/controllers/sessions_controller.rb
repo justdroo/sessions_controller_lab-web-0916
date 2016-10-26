@@ -1,28 +1,29 @@
 class SessionsController < ApplicationController
+  # skip_before_action :require_login, only: [:create]
 
   def new
-
   end
 
 #fix here!!!
   def create
-    if params[:name].nil?
-      redirect_to '/'
+
+    if params[:name] == '' || params[:name] == nil
+      redirect_to login_path
     else
       session[:name] = params[:name]
-      redirect_to '/sessions/new'
+      redirect_to root_path
     end
-
   end
+
+  # def destroy
+  #   session.delete :name
+  #   redirect_to '/login'
+  # end
 
   def destroy
-    session.delete :name
-    redirect_to '/login'
-  end
+    session[:name] = nil
 
-  private
-  def current_user
-    session[:name] ||= nil
+    redirect_to login_path
   end
 
 end
